@@ -1,0 +1,146 @@
+/**
+ * concise 设计变量
+ *
+ *   主题色 #2050FF   正文 #2c3e50   边框 #eaecef   代码块 #282c34
+ *   侧边栏 22rem     正文宽 1200px
+ */
+
+:root {
+  /* 系统字体栈 */
+  --vp-font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  --vp-font-family-mono: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+
+  /* 主题色 */
+  --vp-c-brand-1: #2050ff;
+  --vp-c-brand-2: #1a45e0;
+  --vp-c-brand-3: #2050ff;
+  --vp-c-brand-soft: rgba(32, 80, 255, 0.1);
+
+  /* 文字 */
+  --vp-c-text-1: #2c3e50;
+  --vp-c-text-2: #4e6e8e;
+  --vp-c-text-3: #9e9e9e;
+
+  /* 边框 */
+  --vp-c-divider: #eaecef;
+  --vp-c-border: #eaecef;
+  --vp-c-gutter: #eaecef;
+
+  /* 背景 */
+  --vp-c-bg: #ffffff;
+  --vp-c-bg-alt: #f3f5f7;
+  --vp-c-bg-soft: #f3f5f7;
+  --vp-c-bg-elv: #ffffff;
+
+  /* 代码块在明暗模式下统一为 One Dark 深色底 */
+  --vp-code-block-bg: #282c34;
+
+  /* 布局 */
+  --vp-nav-height: 3.6rem;
+  --vp-sidebar-width: 22rem;
+  --vp-layout-max-width: 1600px;
+  --concise-content-width: 1200px;
+
+  /* 投影：浅色用浅灰，深色必须用黑色叠加，否则比背景亮会发白 */
+  --concise-shadow: 0 1px 16px #eaecef;
+
+  /* 首页 hero */
+  --concise-c-hero-tagline: #6a8bad;
+
+  /* 首页卡片 */
+  --concise-c-card-meta: rgba(44, 62, 80, 0.7);
+  --concise-c-card-hover-bg: rgba(32, 80, 255, 0.1);
+  --concise-c-card-hover-border: rgba(32, 80, 255, 0.2);
+  --concise-c-card-hover-meta: rgba(32, 80, 255, 0.7);
+
+  /* 分页：常态为正文色，hover 才转主题色，选中态是深色实心 */
+  --concise-c-pagination-text: #2c3e50;
+  --concise-c-pagination-hover-bg: rgba(32, 80, 255, 0.1);
+  --concise-c-pagination-hover-border: rgba(32, 80, 255, 0.2);
+  --concise-c-pagination-active-bg: #2c3e50;
+  --concise-c-pagination-active-text: #ffffff;
+  --concise-c-pagination-disabled-text: #dddddd;
+
+  /* 正文元素 */
+  --concise-c-inline-code-text: #476582;
+  --concise-c-inline-code-bg: rgba(27, 31, 35, 0.05);
+  --concise-c-quote-text: #999999;
+  --concise-c-quote-border: #dfe2e5;
+  --concise-c-table-border: #dfe2e5;
+  --concise-c-kbd-bg: #eeeeee;
+  --concise-c-kbd-border: #dddddd;
+
+  /* 容器 */
+  --concise-c-tip-bg: #f3f5f7;
+  --concise-c-tip-border: #42b983;
+  --concise-c-warning-bg: rgba(255, 229, 100, 0.3);
+  --concise-c-warning-border: #e7c000;
+  --concise-c-warning-text: #6b5900;
+  --concise-c-warning-title: #b29400;
+  --concise-c-danger-bg: #ffe6e6;
+  --concise-c-danger-border: #cc0000;
+  --concise-c-danger-text: #4d0000;
+  --concise-c-danger-title: #990000;
+
+  --vp-home-hero-name-color: #2050ff;
+}
+
+/**
+ * 深色模式。使用方若想回到纯浅色，在 config 里设 appearance: false。
+ */
+.dark {
+  --vp-c-brand-1: #8ba3ff;
+  --vp-c-brand-2: #a3b6ff;
+  --vp-c-brand-3: #3b62ff;
+  --vp-c-brand-soft: rgba(110, 140, 255, 0.16);
+
+  --vp-c-text-1: #dfe5ec;
+  --vp-c-text-2: #a4b1c2;
+  --vp-c-text-3: #7d8794;
+
+  --vp-c-divider: #2c3138;
+  --vp-c-border: #2c3138;
+  --vp-c-gutter: #2c3138;
+
+  --vp-c-bg: #1e2228;
+  --vp-c-bg-alt: #24282f;
+  --vp-c-bg-soft: #24282f;
+  --vp-c-bg-elv: #24282f;
+
+  --vp-code-block-bg: #282c34;
+
+  --concise-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+
+  --concise-c-hero-tagline: #a4b1c2;
+
+  --concise-c-card-meta: rgba(223, 229, 236, 0.7);
+  --concise-c-card-hover-bg: rgba(110, 140, 255, 0.12);
+  --concise-c-card-hover-border: rgba(110, 140, 255, 0.3);
+  --concise-c-card-hover-meta: rgba(139, 163, 255, 0.85);
+
+  --concise-c-pagination-text: #dfe5ec;
+  --concise-c-pagination-hover-bg: rgba(110, 140, 255, 0.12);
+  --concise-c-pagination-hover-border: rgba(110, 140, 255, 0.3);
+  --concise-c-pagination-active-bg: #48566b;
+  --concise-c-pagination-active-text: #ffffff;
+  --concise-c-pagination-disabled-text: #4a5260;
+
+  --concise-c-inline-code-text: #9db4d0;
+  --concise-c-inline-code-bg: rgba(255, 255, 255, 0.08);
+  --concise-c-quote-text: #8b949e;
+  --concise-c-quote-border: #3a4048;
+  --concise-c-table-border: #3a4048;
+  --concise-c-kbd-bg: #2c3138;
+  --concise-c-kbd-border: #3a4048;
+
+  --concise-c-tip-bg: #24282f;
+  --concise-c-warning-bg: rgba(255, 229, 100, 0.08);
+  --concise-c-warning-text: #e0c86a;
+  --concise-c-warning-title: #e7c000;
+  --concise-c-danger-bg: rgba(204, 0, 0, 0.12);
+  --concise-c-danger-text: #ff9a9a;
+  --concise-c-danger-title: #ff7a7a;
+
+  --vp-home-hero-name-color: #8ba3ff;
+}

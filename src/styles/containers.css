@@ -1,0 +1,60 @@
+/**
+ * ::: tip / warning / danger 容器，以左侧粗边框区分类型。
+ */
+
+.vp-doc .custom-block {
+  margin: 1rem 0;
+  padding: 0.1rem 1.5rem;
+  border: none;
+  border-left-width: 0.5rem;
+  border-left-style: solid;
+  border-radius: 0;
+  font-size: 16px;
+}
+
+.vp-doc .custom-block p {
+  line-height: 1.7;
+}
+
+.vp-doc .custom-block .custom-block-title {
+  font-weight: 600;
+}
+
+.vp-doc .custom-block.tip,
+.vp-doc .custom-block.info {
+  background-color: var(--concise-c-tip-bg);
+  border-color: var(--concise-c-tip-border);
+  color: var(--vp-c-text-1);
+}
+
+.vp-doc .custom-block.warning {
+  background-color: var(--concise-c-warning-bg);
+  border-color: var(--concise-c-warning-border);
+  color: var(--concise-c-warning-text);
+}
+
+.vp-doc .custom-block.warning .custom-block-title {
+  color: var(--concise-c-warning-title);
+}
+
+.vp-doc .custom-block.danger {
+  background-color: var(--concise-c-danger-bg);
+  border-color: var(--concise-c-danger-border);
+  color: var(--concise-c-danger-text);
+}
+
+.vp-doc .custom-block.danger .custom-block-title {
+  color: var(--concise-c-danger-title);
+}
+
+.vp-doc .custom-block.warning a,
+.vp-doc .custom-block.danger a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.vp-doc .custom-block.details {
+  background-color: var(--vp-c-bg-alt);
+  border-color: var(--vp-c-divider);
+  border-radius: 0;
+}

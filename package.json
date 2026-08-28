@@ -1,14 +1,26 @@
 {
-  "name": "vuepress-theme-concise",
-  "version": "1.0.0",
-  "description": "vuepress derived theme",
-  "main": "index.js",
+  "name": "vitepress-theme-concise",
+  "version": "2.0.0",
+  "description": "卡片式首页呈现的 VitePress 博客主题",
+  "type": "module",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./loader": "./src/loader.ts",
+    "./styles/*": "./src/styles/*"
+  },
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/YoungsunLi/vuepress-theme-concise.git"
+    "url": "git+https://github.com/YoungsunLi/vitepress-theme-concise.git"
   },
   "keywords": [
-    "vuepress",
+    "vitepress",
+    "vitepress-theme",
     "theme",
     "vue",
     "blog"
@@ -16,11 +28,18 @@
   "author": "YoungsunLi <lsun@live.cn>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/YoungsunLi/vuepress-theme-concise/issues"
+    "url": "https://github.com/YoungsunLi/vitepress-theme-concise/issues"
   },
-  "homepage": "https://github.com/YoungsunLi/vuepress-theme-concise#readme",
+  "homepage": "https://github.com/YoungsunLi/vitepress-theme-concise#readme",
+  "peerDependencies": {
+    "vitepress": "^1.6.0",
+    "vue": "^3.4.0"
+  },
+  "devDependencies": {
+    "vitepress": "^1.6.4",
+    "vue": "^3.5.42"
+  },
   "dependencies": {
-    "@vuepress/plugin-back-to-top": "^1.4.1",
-    "@vuepress/plugin-blog": "^1.9.2"
+    "gray-matter": "^4.0.3"
   }
 }
