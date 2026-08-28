@@ -54,10 +54,6 @@ tagline: DEV DESIGN DIY
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
-  vite: {
-    // 主题以源码形式发布，需要交给 Vite 编译
-    ssr: { noExternal: ['vitepress-theme-concise'] }
-  },
   themeConfig: {
     concise: {
       perPage: 10 // 首页每页文章数，默认 10
@@ -65,6 +61,9 @@ export default defineConfig({
   }
 })
 ```
+
+> 主题以源码形式发布，由使用方的 Vite 编译。若构建时出现与主题源码相关的
+> SSR 报错，在配置中补上 `vite: { ssr: { noExternal: ['vitepress-theme-concise'] } }`。
 
 ## 文章格式
 
@@ -78,6 +77,8 @@ date: '2020-03-18'
 ```
 
 首页卡片按 `date` 倒序排列，文章页顶部显示"发布于 …"。
+
+> 发布日期依赖 git 历史，CI 中需设置 `fetch-depth: 0`（浅克隆会退回文件修改时间）。
 
 ## 自定义
 

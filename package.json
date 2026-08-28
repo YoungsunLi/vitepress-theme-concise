@@ -6,7 +6,10 @@
   "main": "./src/index.ts",
   "exports": {
     ".": "./src/index.ts",
-    "./loader": "./src/loader.ts",
+    "./loader": {
+      "types": "./src/loader.d.mts",
+      "default": "./src/loader.mjs"
+    },
     "./styles/*": "./src/styles/*"
   },
   "files": [
