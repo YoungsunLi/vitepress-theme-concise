@@ -4,14 +4,19 @@
 
 /* ------------------------------------------------------------ 布局宽度 */
 
+/*
+ * VitePress 的 VPDoc 宽度上限（688 / 752 / 784 / 992 / 1104px）写在
+ * scoped 样式里（选择器带 [data-v-xxx]），特异性高于普通选择器，
+ * 不加 !important 覆盖不掉（同下方 VPFooter 的处理）。
+ */
 .VPDoc .container,
 .VPDoc:not(.has-sidebar) .content,
 .VPDoc .content-container {
-  max-width: var(--concise-content-width);
+  max-width: var(--concise-content-width) !important;
 }
 
 .VPDoc.has-sidebar .container {
-  max-width: calc(var(--concise-content-width) + var(--vp-sidebar-width));
+  max-width: calc(var(--concise-content-width) + var(--vp-sidebar-width)) !important;
 }
 
 /* ---------------------------------------------------------------- 标题 */
@@ -172,6 +177,30 @@
   color: rgba(255, 255, 255, 0.4);
 }
 
+/*
+ * code-group 的 tab 栏。VitePress 默认让 tab 文字跟随 --vp-c-text-1/2，
+ * 但 concise 的代码块明暗模式都是深底，浅色模式会变成深字压深底，
+ * 故 tab 一律按深底配浅字，与代码块一体。
+ */
+:root {
+  --vp-code-tab-divider: rgba(255, 255, 255, 0.12);
+  --vp-code-tab-text-color: rgba(255, 255, 255, 0.5);
+  --vp-code-tab-hover-text-color: rgba(255, 255, 255, 0.85);
+  --vp-code-tab-active-text-color: #ffffff;
+  --vp-code-tab-active-bar-color: #8ba3ff;
+}
+
+/*
+ * 默认主题在移动端把代码块和 tab 栏一起做通栏（负边距），
+ * 而 concise 的代码块任何宽度下都内缩圆角，tab 栏须跟随，
+ * 否则移动端会出现 tab 通栏、代码块内缩的错位。
+ * 圆角同时对齐代码块的 6px（默认是 8px）。
+ */
+.vp-code-group .tabs {
+  margin: 0;
+  border-radius: 6px 6px 0 0;
+}
+
 /* ---------------------------------------------------------------- 页脚 */
 
 /*
@@ -220,4 +249,14 @@
  */
 .VPDoc.VPDoc {
   padding-bottom: 2rem;
+}
+
+/*
+ * ≥960px 时 VitePress 把这段空白放在 .content 而非 .VPDoc 上
+ * （同为 scoped 的 128px）。此处归零后，底距统一由上面的 2rem 提供。
+ */
+@media (min-width: 960px) {
+  .VPDoc .content {
+    padding-bottom: 0;
+  }
 }
