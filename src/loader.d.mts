@@ -19,6 +19,7 @@ export interface PostsLoaderOptions {
  *
  * 标题取 frontmatter.title，缺省时取正文第一个 `#` 标题。
  * 日期取 frontmatter.date，缺省时取 git 首次提交时间，再缺省用文件修改时间。
+ * 同一天的文章按 git 入库时间倒序。
  */
 export function createPostsLoader(
   pattern: string,
