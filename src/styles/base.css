@@ -260,3 +260,14 @@
     padding-bottom: 0;
   }
 }
+
+/* ---------------------------------------------------------------- 搜索 */
+
+/*
+ * 本地搜索的输入框是 type=search，Chromium / Safari 会在有内容时再画一个原生清除按钮，
+ * 与 VitePress 自己的 clear-button 重复。
+ */
+.VPLocalSearchBox .search-input::-webkit-search-cancel-button,
+.VPLocalSearchBox .search-input::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
