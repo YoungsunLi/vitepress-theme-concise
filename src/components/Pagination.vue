@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { pageUrl, useConcise } from '../posts'
 
 const props = defineProps<{
   total: number
@@ -7,38 +8,25 @@ const props = defineProps<{
   current: number
 }>()
 
-const emit = defineEmits<{ (e: 'change', page: number): void }>()
+const { labels } = useConcise()
 
-const totalPages = computed(() => Math.max(1, Math.ceil(props.total / props.perPage)))
-const pages = computed(() => Array.from({ length: totalPages.value }, (_, i) => i + 1))
-
-function go(page: number) {
-  if (page < 1 || page > totalPages.value || page === props.current) return
-  emit('change', page)
-}
+const totalPages = computed(() => Math.ceil(props.total / props.perPage))
 </script>
 
 <template>
-  <nav class="pagination-wrapper" aria-label="文章分页">
+  <nav v-if="totalPages > 1" class="pagination-wrapper" :aria-label="labels.pagination">
     <ul class="pagination">
       <li :class="{ disabled: current === 1 }">
-        <button type="button" :disabled="current === 1" @click="go(current - 1)">
-          上一页
-        </button>
+        <a v-if="current > 1" :href="pageUrl(current - 1)">{{ labels.prevPage }}</a>
+        <span v-else>{{ labels.prevPage }}</span>
       </li>
-      <li v-for="page of pages" :key="page" :class="{ active: page === current }">
-        <button
-          type="button"
-          :aria-current="page === current ? 'page' : undefined"
-          @click="go(page)"
-        >
-          {{ page }}
-        </button>
+      <li v-for="page in totalPages" :key="page" :class="{ active: page === current }">
+        <a v-if="page !== current" :href="pageUrl(page)">{{ page }}</a>
+        <span v-else aria-current="page">{{ page }}</span>
       </li>
       <li :class="{ disabled: current === totalPages }">
-        <button type="button" :disabled="current === totalPages" @click="go(current + 1)">
-          下一页
-        </button>
+        <a v-if="current < totalPages" :href="pageUrl(current + 1)">{{ labels.nextPage }}</a>
+        <span v-else>{{ labels.nextPage }}</span>
       </li>
     </ul>
   </nav>
@@ -60,58 +48,50 @@ function go(page: number) {
 
 .pagination > li {
   display: inline;
-  outline: none;
 }
 
-.pagination button {
+.pagination > li > * {
   position: relative;
   float: left;
   padding: 6px 12px;
   margin-left: -1px;
   font-size: 14px;
   line-height: 1.42857143;
-  vertical-align: middle;
   color: var(--concise-c-pagination-text);
   background-color: var(--vp-c-bg);
   border: 1px solid var(--vp-c-divider);
-  cursor: pointer;
+  text-decoration: none;
   transition: color 0.2s, background-color 0.2s, border-color 0.2s;
 }
 
-.pagination > li:first-child button {
+.pagination > li:first-child > * {
   margin-left: 0;
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
 }
 
-.pagination > li:last-child button {
+.pagination > li:last-child > * {
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
 }
 
-.pagination button:hover:not(:disabled),
-.pagination button:focus-visible:not(:disabled) {
+.pagination a:hover,
+.pagination a:focus-visible {
   z-index: 3;
   color: var(--vp-c-brand-1);
   background-color: var(--concise-c-pagination-hover-bg);
   border-color: var(--concise-c-pagination-hover-border);
 }
 
-.pagination > .active button,
-.pagination > .active button:hover,
-.pagination > .active button:focus-visible {
+.pagination > .active > span {
   z-index: 2;
   color: var(--concise-c-pagination-active-text);
-  cursor: default;
   background-color: var(--concise-c-pagination-active-bg);
   border-color: var(--concise-c-pagination-active-bg);
 }
 
-.pagination > .disabled button,
-.pagination > .disabled button:hover {
+.pagination > .disabled > span {
   color: var(--concise-c-pagination-disabled-text);
   cursor: not-allowed;
-  background-color: var(--vp-c-bg);
-  border-color: var(--vp-c-divider);
 }
 </style>

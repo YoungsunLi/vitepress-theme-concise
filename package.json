@@ -1,14 +1,14 @@
 {
   "name": "vitepress-theme-concise",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "卡片式首页呈现的 VitePress 博客主题",
   "type": "module",
   "main": "./src/index.ts",
   "exports": {
     ".": "./src/index.ts",
-    "./loader": {
-      "types": "./src/loader.d.mts",
-      "default": "./src/loader.mjs"
+    "./node": {
+      "types": "./src/node.d.mts",
+      "default": "./src/node.mjs"
     },
     "./styles/*": "./src/styles/*"
   },
@@ -34,6 +34,9 @@
     "url": "https://github.com/YoungsunLi/vitepress-theme-concise/issues"
   },
   "homepage": "https://github.com/YoungsunLi/vitepress-theme-concise#readme",
+  "engines": {
+    "node": ">=22"
+  },
   "peerDependencies": {
     "vitepress": "^1.6.0",
     "vue": "^3.4.0"
@@ -43,6 +46,7 @@
     "vue": "^3.5.42"
   },
   "dependencies": {
-    "gray-matter": "^4.0.3"
+    "gray-matter": "^4.0.3",
+    "medium-zoom": "^1.1.0"
   }
 }

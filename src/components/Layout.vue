@@ -1,32 +1,25 @@
 <script setup lang="ts">
-import { computed, inject, useSlots } from 'vue'
+import { computed, nextTick, onMounted, useSlots, watch } from 'vue'
 import { useData, useRoute } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
+import mediumZoom from 'medium-zoom'
 import BackToTop from './BackToTop.vue'
-import { POSTS_KEY, type Post } from '../posts'
+import { tagUrl, useConcise, usePosts } from '../posts'
 
 const { Layout } = DefaultTheme
-const { frontmatter } = useData()
+const { page } = useData()
 const route = useRoute()
 const slots = useSlots()
-const posts = inject<Post[]>(POSTS_KEY, [])
+const posts = usePosts()
+const { labels } = useConcise()
 
-function normalize(path: string) {
-  return path.replace(/\/+$/, '')
-}
+/** 当前页对应的文章；relativePath 已经过 rewrite，形如 posts/<slug>/index.md */
+const post = computed(() => posts.find((p) => p.url === '/' + page.value.relativePath.replace(/index\.md$/, '')))
 
-/**
- * 发布日期：优先 frontmatter.date；没有就用文章列表里的值
- * （由 loader 在构建时从 git 首次提交时间推断）。
- */
-const publishDate = computed(() => {
-  const explicit = frontmatter.value.date
-  if (explicit instanceof Date) return explicit.toISOString().slice(0, 10)
-  if (typeof explicit === 'string' && explicit) return explicit.slice(0, 10)
-
-  const current = normalize(route.path)
-  return posts.find((p) => normalize(p.url) === current)?.date ?? ''
-})
+/** 正文图片点击放大；切换路由后正文 DOM 已换，要重新绑定 */
+const zoom = () => mediumZoom('.vp-doc img', { background: 'var(--vp-c-bg)' })
+onMounted(zoom)
+watch(() => route.path, () => nextTick(zoom))
 
 /** 主题占用的插槽，其余原样透传给默认主题 */
 const OWNED = ['doc-before', 'layout-bottom']
@@ -36,7 +29,12 @@ const passThrough = computed(() => Object.keys(slots).filter((name) => !OWNED.in
 <template>
   <Layout>
     <template #doc-before>
-      <div v-if="publishDate" class="post-meta">发布于 {{ publishDate }}</div>
+      <div v-if="post" class="post-meta">
+        {{ labels.publishedAt }} {{ post.date }}
+        <template v-for="tag of post.tags" :key="tag">
+          · <a :href="tagUrl(tag)">{{ tag }}</a>
+        </template>
+      </div>
       <slot name="doc-before" />
     </template>
 
@@ -56,5 +54,14 @@ const passThrough = computed(() => Object.keys(slots).filter((name) => !OWNED.in
   margin-bottom: 1.25rem;
   color: var(--vp-c-text-3);
   font-size: 14px;
+}
+
+.post-meta a {
+  color: inherit;
+  transition: color 0.25s;
+}
+
+.post-meta a:hover {
+  color: var(--vp-c-brand-1);
 }
 </style>

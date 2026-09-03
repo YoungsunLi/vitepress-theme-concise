@@ -1,66 +1,33 @@
 <script setup lang="ts">
-import { computed, inject, ref } from 'vue'
+import { computed } from 'vue'
 import { useData } from 'vitepress'
-import { POSTS_KEY, type ConciseConfig, type Post } from '../posts'
-import PostCard from './PostCard.vue'
+import { useConcise, usePosts } from '../posts'
+import PostList from './PostList.vue'
 import Pagination from './Pagination.vue'
 
-const { frontmatter, theme } = useData()
+const { frontmatter, params } = useData()
+const posts = usePosts()
+const { perPage } = useConcise()
 
-const posts = inject<Post[]>(POSTS_KEY, [])
+const current = computed(() => Number(params.value?.page ?? 1))
 
-const perPage = computed(() => {
-  const config = (theme.value as { concise?: ConciseConfig }).concise
-  return config?.perPage ?? 10
-})
-
-const current = ref(1)
-
-const pagedPosts = computed(() =>
-  posts.slice((current.value - 1) * perPage.value, current.value * perPage.value)
-)
-
-function onPageChange(page: number) {
-  current.value = page
-  if (typeof window !== 'undefined') {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
-}
+const paged = computed(() => posts.slice((current.value - 1) * perPage, current.value * perPage))
 </script>
 
 <template>
-  <main class="home">
+  <main class="concise-page">
     <header v-if="frontmatter.heroText || frontmatter.tagline" class="hero">
       <h1 v-if="frontmatter.heroText">{{ frontmatter.heroText }}</h1>
       <p v-if="frontmatter.tagline" class="tagline">{{ frontmatter.tagline }}</p>
     </header>
 
-    <ul class="posts-box">
-      <PostCard
-        v-for="post of pagedPosts"
-        :key="post.url"
-        :title="post.title"
-        :date="post.date"
-        :url="post.url"
-      />
-    </ul>
+    <PostList :posts="paged" />
 
-    <Pagination
-      :total="posts.length"
-      :per-page="perPage"
-      :current="current"
-      @change="onPageChange"
-    />
+    <Pagination :total="posts.length" :per-page="perPage" :current="current" />
   </main>
 </template>
 
 <style scoped>
-.home {
-  max-width: var(--concise-content-width);
-  margin: 0 auto;
-  padding: 0 1rem 1.5rem;
-}
-
 .hero {
   text-align: center;
 }
@@ -83,13 +50,5 @@ function onPageChange(page: number) {
   font-size: 1.6rem;
   line-height: 1.3;
   color: var(--concise-c-hero-tagline);
-}
-
-/* 卡片横向排布并自动换行；卡片宽度由标题长度决定（见 PostCard 的 flex-grow） */
-.posts-box {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 0;
-  padding: 0;
 }
 </style>

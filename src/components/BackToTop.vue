@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue'
+import { useData } from 'vitepress'
 
+const { theme } = useData()
 const visible = ref(false)
 
 function onScroll() {
@@ -23,7 +25,7 @@ onUnmounted(() => {
 
 <template>
   <Transition name="concise-fade">
-    <button v-show="visible" class="go-to-top" type="button" aria-label="回到顶部" @click="toTop">
+    <button v-show="visible" class="go-to-top" type="button" :aria-label="theme.returnToTopLabel ?? 'Return to top'" @click="toTop">
       <svg
         viewBox="0 0 24 24"
         fill="none"

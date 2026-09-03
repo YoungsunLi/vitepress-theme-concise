@@ -1,17 +1,16 @@
 <script setup lang="ts">
-defineProps<{
-  title: string
-  date: string
-  url: string
-}>()
+import { withBase } from 'vitepress'
+import type { Post } from '../posts'
+
+defineProps<{ post: Post }>()
 </script>
 
 <template>
   <li class="post-card">
-    <a :href="url" class="post-card-link">
-      <h3>{{ title }}</h3>
+    <a :href="withBase(post.url)" class="post-card-link">
+      <h3>{{ post.title }}</h3>
       <aside>
-        <div class="post-card-date">{{ date }}</div>
+        <div class="post-card-date">{{ post.date }}</div>
         <div class="post-card-more">→</div>
       </aside>
     </a>
@@ -20,7 +19,11 @@ defineProps<{
 
 <style scoped>
 .post-card {
-  /* 不设 flex-basis：宽度由标题长度自然决定，同一行卡片才不会有的换行有的不换行 */
+  /*
+   * 不设 flex-basis：宽度就是标题的 max-content，能同行的卡片标题都不换行，
+   * 同行因此天然等高；标题换行只发生在独占一行的卡片上。
+   * 往卡片里加会换行的内容会破坏这条规则。
+   */
   flex-grow: 1;
   margin: 8px;
   padding: 15px 19px 0 19px;

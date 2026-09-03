@@ -1,0 +1,34 @@
+/**
+ * 列表页（首页、归档、标签）的公共容器。
+ * 这些页面用 layout: page 以避开 .vp-doc 的正文排版，标题样式需自行声明。
+ */
+
+.concise-page {
+  max-width: var(--concise-content-width);
+  margin: 0 auto;
+  padding: 0 1rem 1.5rem;
+}
+
+.concise-page h1 {
+  margin: 1.8rem 8px 1rem;
+  font-size: 2.2rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.concise-page h2 {
+  margin: 2rem 8px 0.75rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--vp-c-divider);
+  font-size: 1.65rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.concise-page h1 small,
+.concise-page h2 small {
+  margin-left: 0.6em;
+  font-size: 0.55em;
+  font-weight: 400;
+  color: var(--vp-c-text-3);
+}

@@ -2,6 +2,9 @@ import type { Theme } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
 import Layout from './components/Layout.vue'
 import Home from './components/Home.vue'
+import Archive from './components/Archive.vue'
+import Tags from './components/Tags.vue'
+import Tag from './components/Tag.vue'
 import PostCard from './components/PostCard.vue'
 import Pagination from './components/Pagination.vue'
 import BackToTop from './components/BackToTop.vue'
@@ -10,11 +13,11 @@ import './styles/index.css'
 
 export { POSTS_KEY }
 export type { Post }
-export { Layout, Home, PostCard, Pagination, BackToTop }
+export { Layout, Home, Archive, Tags, Tag, PostCard, Pagination, BackToTop }
 
 export interface ConciseThemeOptions {
-  /** 文章列表，通常来自 createPostsLoader() 的构建时数据 */
-  posts?: Post[]
+  /** 文章列表，来自 posts.data.mts 的构建时数据 */
+  posts: Post[]
 }
 
 /**
@@ -28,17 +31,16 @@ export interface ConciseThemeOptions {
  * export default createConciseTheme({ posts })
  * ```
  */
-export function createConciseTheme(options: ConciseThemeOptions = {}): Theme {
+export function createConciseTheme({ posts }: ConciseThemeOptions): Theme {
   return {
     extends: DefaultTheme,
     Layout,
     enhanceApp({ app }) {
-      app.provide(POSTS_KEY, options.posts ?? [])
+      app.provide(POSTS_KEY, posts)
       app.component('Home', Home)
-      app.component('PostCard', PostCard)
-      app.component('Pagination', Pagination)
+      app.component('Archive', Archive)
+      app.component('Tags', Tags)
+      app.component('Tag', Tag)
     }
   }
 }
-
-export default createConciseTheme()
