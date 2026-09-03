@@ -1,5 +1,5 @@
 import type { DefaultTheme, UserConfig } from 'vitepress'
-import type { Labels, Post } from './posts'
+import type { Giscus, Labels, Post } from './posts'
 
 export interface ConciseOptions {
   /** 文章目录，绝对路径或 file: URL；目录下每个 .md 即一篇文章，地址为 /<目录名>/<文件名>/ */
@@ -10,6 +10,8 @@ export interface ConciseOptions {
   hostname?: string
   /** 界面文案，缺省为中文，可只覆盖一部分 */
   labels?: Partial<Labels>
+  /** 文章页评论，存在 GitHub Discussions 里；不配则没有评论区 */
+  giscus?: Giscus
 }
 
 export interface Concise {

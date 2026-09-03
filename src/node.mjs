@@ -185,7 +185,7 @@ function transformPageData(site, pageData, siteConfig) {
 
 async function config(site, userConfig) {
   const { mergeConfig } = await import('vitepress')
-  const { prefix, perPage, labels, origin } = site
+  const { prefix, perPage, labels, giscus, origin } = site
   const merged = mergeConfig(
     {
       rewrites: { [`${prefix}/:slug.md`]: `${prefix}/:slug/index.md` },
@@ -193,7 +193,7 @@ async function config(site, userConfig) {
       srcExclude: isBuild ? site.records().filter((p) => p.draft).map((p) => `${prefix}/${path.basename(p.file)}`) : [],
       // VitePress 生成 sitemap 时不会自己拼 base；此时 siteConfig 尚未解析，只能取用户写的 base
       sitemap: origin && { hostname: origin + (userConfig.base ?? '/') },
-      themeConfig: { concise: { perPage, labels } },
+      themeConfig: { concise: { perPage, labels, giscus } },
       // 主题以源码发布，SSR 时必须交给 Vite 编译
       vite: { ssr: { noExternal: [PACKAGE] } }
     },
@@ -214,13 +214,14 @@ async function config(site, userConfig) {
  * 主题的 Node 端接线，见 README「使用」。
  * `posts` 是文章目录，目录下每个 .md 即一篇文章，地址为 /<目录名>/<文件名>/。
  */
-export function defineConcise({ posts, perPage = 10, hostname, labels }) {
+export function defineConcise({ posts, perPage = 10, hostname, labels, giscus }) {
   const dir = path.resolve(posts instanceof URL ? fileURLToPath(posts) : posts)
   let cache
   const site = {
     // 目录名即地址前缀：rewrites 与 srcExclude 都按 <srcDir>/<目录名>/ 定位文章
     prefix: path.basename(dir),
     perPage,
+    giscus,
     labels: { ...DEFAULT_LABELS, ...labels },
     origin: hostname?.replace(/\/$/, ''),
     records: () =>

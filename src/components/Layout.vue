@@ -4,6 +4,7 @@ import { useData, useRoute } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
 import mediumZoom from 'medium-zoom'
 import BackToTop from './BackToTop.vue'
+import Comments from './Comments.vue'
 import { tagUrl, useConcise, usePosts } from '../posts'
 
 const { Layout } = DefaultTheme
@@ -11,7 +12,7 @@ const { page } = useData()
 const route = useRoute()
 const slots = useSlots()
 const posts = usePosts()
-const { labels } = useConcise()
+const { labels, giscus } = useConcise()
 
 /** 当前页对应的文章；relativePath 已经过 rewrite，形如 posts/<slug>/index.md */
 const post = computed(() => posts.find((p) => p.url === '/' + page.value.relativePath.replace(/index\.md$/, '')))
@@ -22,7 +23,7 @@ onMounted(zoom)
 watch(() => route.path, () => nextTick(zoom))
 
 /** 主题占用的插槽，其余原样透传给默认主题 */
-const OWNED = ['doc-before', 'layout-bottom']
+const OWNED = ['doc-before', 'doc-after', 'layout-bottom']
 const passThrough = computed(() => Object.keys(slots).filter((name) => !OWNED.includes(name)))
 </script>
 
@@ -36,6 +37,12 @@ const passThrough = computed(() => Object.keys(slots).filter((name) => !OWNED.in
         </template>
       </div>
       <slot name="doc-before" />
+    </template>
+
+    <template #doc-after>
+      <slot name="doc-after" />
+      <!-- 按路由重建，切换文章时评论区跟着换 -->
+      <Comments v-if="post && giscus" :key="route.path" />
     </template>
 
     <template #layout-bottom>

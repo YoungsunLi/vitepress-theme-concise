@@ -10,6 +10,7 @@
 - 草稿：`draft: true` 的文章 dev 可见、构建不收录
 - Atom 订阅 `feed.xml`、sitemap、og 标签
 - 正文图片点击放大
+- 评论（giscus，存在 GitHub Discussions 里），不配就没有评论区
 - 经典排版手感：系统字体栈、`h2` 下划线、左侧粗边框的提示容器、深色代码块
 - 主题色 `#2050FF`，并补齐了深色模式
 
@@ -124,6 +125,28 @@ draft: true            # dev 可见，构建不收录
 ```
 
 > 发布日期依赖 git 历史，CI 中需设置 `fetch-depth: 0`（浅克隆会退回文件修改时间）。
+
+## 评论
+
+评论用 [giscus](https://giscus.app)，存在你 GitHub 仓库的 Discussions 里，读者用 GitHub 账号评论：
+
+1. 博客仓库开启 Discussions，用 Announcements 类型的分类，只有你能发帖。
+2. 在仓库安装 [giscus App](https://github.com/apps/giscus)。
+3. 到 [giscus.app](https://giscus.app) 填仓库名，拿到 `repoId` 与 `categoryId`。
+
+```ts
+defineConcise({
+  posts: …,
+  giscus: {
+    repo: 'user/repo',
+    repoId: 'R_…',
+    category: 'Announcements',
+    categoryId: 'DIC_…'
+  }
+})
+```
+
+评论区只出现在文章页，滚到底部才加载，明暗跟随站点。
 
 ## 自定义
 

@@ -21,10 +21,19 @@ export interface Labels {
   pageTitle: string
 }
 
+/** giscus 的仓库参数，在 giscus.app 填仓库名即可得到 */
+export interface Giscus {
+  repo: string
+  repoId: string
+  category: string
+  categoryId: string
+}
+
 /** themeConfig.concise，由 defineConcise().config() 注入 */
 export interface ConciseConfig {
   perPage: number
   labels: Labels
+  giscus?: Giscus
 }
 
 /** 文章列表的注入键，由使用方通过 createConciseTheme({ posts }) 提供 */
