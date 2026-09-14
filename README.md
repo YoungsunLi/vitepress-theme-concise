@@ -19,10 +19,8 @@
 ## 安装
 
 ```bash
-npm install github:YoungsunLi/vitepress-theme-concise#v3.0.0
+npm install vitepress-theme-concise
 ```
-
-建议带上版本标签；省略则跟随 `master`，日后的改动会直接进入你的构建。
 
 ## 使用
 
